@@ -1,4 +1,4 @@
-package VariableObjects;
+package com.acerta.abis.dermalog.client.rest;
 
 public class BuscarBiometricosAbisRequestVo {
 	String identityId = "";

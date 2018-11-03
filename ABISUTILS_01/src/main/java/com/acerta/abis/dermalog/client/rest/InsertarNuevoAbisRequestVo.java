@@ -1,4 +1,4 @@
-package VariableObjects;
+package com.acerta.abis.dermalog.client.rest;
 
 public class InsertarNuevoAbisRequestVo {
 	String identityId = "";
@@ -7,14 +7,16 @@ public class InsertarNuevoAbisRequestVo {
 	public String getIdentityId() {
 		return identityId;
 	}
-	public void setIdentityId(String identityId) {
+	public InsertarNuevoAbisRequestVo setIdentityId(String identityId) {
 		this.identityId = identityId;
+		return this;
 	}
 	public QueryBiometrics getBiometrics() {
 		return biometrics;
 	}
-	public void setBiometrics(QueryBiometrics biometrics) {
+	public InsertarNuevoAbisRequestVo setBiometrics(QueryBiometrics biometrics) {
 		this.biometrics = biometrics;
+		return this;
 	}
 	
 	

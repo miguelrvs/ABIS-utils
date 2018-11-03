@@ -1,8 +1,8 @@
-package VariableObjects;
+package com.acerta.abis.dermalog.client.rest;
 
 public class Image {
-	String	type = "";
-	String  data = "";
+	String	type;
+	byte[]  data;
 	
 	public String getType() {
 		return type;
@@ -10,15 +10,12 @@ public class Image {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getData() {
+	public byte[] getData() {
 		return data;
 	}
-	public void setData(String data) {
+	public void setData(byte[] data) {
 		this.data = data;
 	}
-	
-	
-	
 	
 	
 }

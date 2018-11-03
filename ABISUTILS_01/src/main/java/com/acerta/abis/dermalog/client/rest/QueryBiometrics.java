@@ -1,4 +1,4 @@
-package VariableObjects;
+package com.acerta.abis.dermalog.client.rest;
 
 import java.util.ArrayList;
 import java.util.List;
