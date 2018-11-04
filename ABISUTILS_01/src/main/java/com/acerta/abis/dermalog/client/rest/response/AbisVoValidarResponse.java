@@ -1,8 +1,10 @@
-package com.acerta.abis.dermalog.client.rest;
+package com.acerta.abis.dermalog.client.rest.response;
 
-public class BuscarBiometricosAbisResponse {
+import com.acerta.abis.dermalog.client.rest.QueryBiometrics;
+
+public class AbisVoValidarResponse {
 	String identityId = "";
-	QueryBiometrics biometrics = null;
+	QueryBiometrics queryBiometrics = null;
 	
 	public String getIdentityId() {
 		return identityId;
@@ -11,10 +13,10 @@ public class BuscarBiometricosAbisResponse {
 		this.identityId = identityId;
 	}
 	public QueryBiometrics getBiometrics() {
-		return biometrics;
+		return queryBiometrics;
 	}
 	public void setBiometrics(QueryBiometrics biometrics) {
-		this.biometrics = biometrics;
+		this.queryBiometrics = biometrics;
 	}
 	
 	

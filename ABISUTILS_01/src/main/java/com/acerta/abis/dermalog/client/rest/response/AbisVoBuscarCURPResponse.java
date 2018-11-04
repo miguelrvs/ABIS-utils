@@ -1,23 +1,23 @@
-package com.acerta.abis.dermalog.client.rest;
+package com.acerta.abis.dermalog.client.rest.response;
 
-public class InsertarNuevoAbisRequestVo {
+import com.acerta.abis.dermalog.client.rest.QueryBiometrics;
+
+public class AbisVoBuscarCURPResponse {
 	String identityId = "";
 	QueryBiometrics biometrics = null;
 	
 	public String getIdentityId() {
 		return identityId;
 	}
-	public InsertarNuevoAbisRequestVo setIdentityId(String identityId) {
+	public void setIdentityId(String identityId) {
 		this.identityId = identityId;
-		return this;
 	}
 	public QueryBiometrics getBiometrics() {
 		return biometrics;
 	}
-	public InsertarNuevoAbisRequestVo setBiometrics(QueryBiometrics biometrics) {
+	public void setBiometrics(QueryBiometrics biometrics) {
 		this.biometrics = biometrics;
-		return this;
 	}
-	
+
 	
 }

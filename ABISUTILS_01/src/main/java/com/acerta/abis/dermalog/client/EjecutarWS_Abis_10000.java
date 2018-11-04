@@ -7,80 +7,93 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 
 import javax.ws.rs.client.AsyncInvoker;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.cxf.Bus;
+import org.apache.cxf.bus.extension.ExtensionManagerBus;
+import org.apache.cxf.feature.LoggingFeature;
+import org.apache.cxf.interceptor.LoggingInInterceptor;
+import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxrs.client.Client;
 import org.apache.cxf.jaxrs.client.JAXRSClientFactoryBean;
 import org.apache.cxf.jaxrs.client.spec.ClientBuilderImpl;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.codehaus.jackson.map.ObjectMapper;
 
-import com.acerta.abis.dermalog.client.rest.BuscarBiometricosAbisRequestVo;
-import com.acerta.abis.dermalog.client.rest.BuscarBiometricosAbisResponse;
-import com.acerta.abis.dermalog.client.rest.InsertarNuevoAbisRequestVo;
-import com.acerta.abis.dermalog.client.rest.InsertarNuevoAbisResponse;
 import com.acerta.abis.dermalog.client.rest.QueryBiometrics;
+import com.acerta.abis.dermalog.client.rest.request.AbisVoBorrarCURPRequest;
+import com.acerta.abis.dermalog.client.rest.request.AbisVoBuscarBiometricosRequest;
+import com.acerta.abis.dermalog.client.rest.request.AbisVoInsertarNuevoRequest;
+import com.acerta.abis.dermalog.client.rest.response.AbisVoBuscarBiometricosResponse;
+import com.acerta.abis.dermalog.client.rest.response.AbisVoInsertarNuevoResponse;
 
 import org.apache.cxf.jaxrs.client.WebClient;
 
 
 public class EjecutarWS_Abis_10000 {
 	
-	private String baseUrl = "http://192.168.15.184:10000/v1/";
+	private static String baseUrl = "http://192.168.15.184:10000/v1/";
 	
 
 	private JAXRSClientFactoryBean jax;
 	
-	public EjecutarWS_Abis_10000( String baseUrl ) {
+	public EjecutarWS_Abis_10000( ) {
 		super();
-		this.baseUrl = baseUrl;
-		 jax = new JAXRSClientFactoryBean();
-		 jax.setAddress(baseUrl);
-		
-		
+//		this.baseUrl = baseUrl;
 	}
 
-
 	//    public static void wsPostDerma_Enrroll(QueryBiometrics biometrics, String nombre) throws IOException {
-    public com.acerta.abis.dermalog.client.rest.InsertarNuevoAbisResponse insertarRegistro(InsertarNuevoAbisRequestVo request) throws IOException {
+    public com.acerta.abis.dermalog.client.rest.response.AbisVoInsertarNuevoResponse insertarRegistro(AbisVoInsertarNuevoRequest request) throws IOException {
     	String path = "identity";
 
-/*    	InsertarNuevoAbisRequestVo request = new InsertarNuevoAbisRequestVo()
-			.setIdentityId(identityId)
-			.setBiometrics(biometrics);*/
+//    	InsertarNuevoAbisRequestVo request = new InsertarNuevoAbisRequestVo()
+//			.setIdentityId(identityId)
+//			.setBiometrics(biometrics);
     	
-    	WebClient client = jax.createWebClient().path(path);
-    	Response r = client.accept(MediaType.APPLICATION_JSON)
-    			.post(request); //TODO especificar tipo de retorno
+//    	WebClient client = jax.createWebClient().path(path);
+//    	Response r = client.accept(MediaType.APPLICATION_JSON)
+//    			.post(request); //TODO especificar tipo de retorno
+//    	
+//		switch (r.getStatus()) {
+//		case 200:
+//			System.out.println("Registro insertado Exitosamente");
+//			AbisVoInsertarNuevoResponse e = r.readEntity(com.acerta.abis.dermalog.client.rest.response.AbisVoInsertarNuevoResponse.class);
+//			return e;
+//		case 400:
+//			System.out.println("datos de peticion invalidos");
+//			throw new RuntimeException("datos de peticion invalidos");
+//		case 409:
+//			System.out.println("Identidad ya existente");
+//			throw new RuntimeException("datos de peticion invalidos");
+//		case 500:
+//			System.out.println("Error inesperado");
+//			throw new RuntimeException("Error inesperado");
+//
+//		default:
+//			throw new RuntimeException("Error desconocido "+r.getStatus()+" "+r.getStatusInfo().getReasonPhrase());
+//		}
     	
-		switch (r.getStatus()) {
-		case 200:
-			System.out.println("Registro insertado Exitosamente");
-			InsertarNuevoAbisResponse e = r.readEntity(com.acerta.abis.dermalog.client.rest.InsertarNuevoAbisResponse.class);
-			return e;
-		case 400:
-			System.out.println("datos de peticion invalidos");
-			throw new RuntimeException("datos de peticion invalidos");
-		case 409:
-			System.out.println("Identidad ya existente");
-			throw new RuntimeException("datos de peticion invalidos");
-		case 500:
-			System.out.println("Error inesperado");
-			throw new RuntimeException("Error inesperado");
-
-		default:
-			throw new RuntimeException("Error desconocido "+r.getStatus()+" "+r.getStatusInfo().getReasonPhrase());
-		}
+		ObjectMapper mapper = new ObjectMapper();
+		String jsonInString = mapper.writeValueAsString(request);
+		jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(request);
     	
-    	/*
     	@SuppressWarnings("deprecation")
 		DefaultHttpClient httpClient = new DefaultHttpClient();
     	HttpClient client = HttpClientBuilder.create().build();
-    	HttpPost post = new HttpPost(url);
+    	HttpPost   post   = new HttpPost(path);
 
-    	StringEntity input = new StringEntity(json);
+    	StringEntity input = new StringEntity(jsonInString);
 		input.setContentType("application/json");
 		post.setEntity(input);
 
@@ -115,7 +128,10 @@ public class EjecutarWS_Abis_10000 {
 			System.out.println(output);
 		}
 		httpClient.getConnectionManager().shutdown();
-*/
+		AbisVoInsertarNuevoResponse insertarResponse = new AbisVoInsertarNuevoResponse();
+				insertarResponse.setIdentityId("aqui va a ir el id");
+		return insertarResponse;
+
     }
     
     
@@ -146,12 +162,12 @@ public class EjecutarWS_Abis_10000 {
     	return r;
     }
     
-    public com.acerta.abis.dermalog.client.rest.BuscarBiometricosAbisResponse buscarBiometicos(BuscarBiometricosAbisRequestVo request) throws Exception {
+    public com.acerta.abis.dermalog.client.rest.response.AbisVoBuscarBiometricosResponse buscarBiometicos(AbisVoBuscarBiometricosRequest request) throws Exception {
     	String path = "/biometric/search";
     	WebClient client = jax.createWebClient().path(path);
-    	BuscarBiometricosAbisResponse r = client
+    	AbisVoBuscarBiometricosResponse r = client
     			.accept(MediaType.APPLICATION_JSON)
-    			.post(request, com.acerta.abis.dermalog.client.rest.BuscarBiometricosAbisResponse.class); //TODO falta tipo de retorno
+    			.post(request, com.acerta.abis.dermalog.client.rest.response.AbisVoBuscarBiometricosResponse.class); //TODO falta tipo de retorno
 
     	return r;
 /*    	
@@ -185,25 +201,27 @@ public class EjecutarWS_Abis_10000 {
 			IOUtils.copy(response.getEntity().getContent(), System.out);*/
     }
     
-    public void eliminarRegistro(String curp) throws IOException {
+    public void eliminarRegistro(AbisVoBorrarCURPRequest borrarRequest) throws IOException {
 
-    	String path = "identity/{curp}";
-    	WebClient client = jax.createWebClient().path(path, curp);
+    	String path = baseUrl+"identity/"+borrarRequest.getIdentityId();
+//    	WebClient client = jax.createWebClient().path(path);
 
 /*    	AsyncInvoker asyncClient = client.accept(MediaType.APPLICATION_JSON).async();
     	asyncClient.
     	asyncClient.get();*/
     	
-    	Response r = client.accept(MediaType.APPLICATION_JSON).get();
-    	return ;
+//    	Response r = client//.accept(MediaType.APPLICATION_JSON)
+//    			.delete();
+//    	int status = r.getStatus();
+//    	return ;
     	
- /*   	
+  	
     	
     	@SuppressWarnings("deprecation")
 		DefaultHttpClient httpClient = new DefaultHttpClient();
     	HttpClient client = HttpClientBuilder.create().build();
     	
-    	HttpDelete delete = new HttpDelete(url);
+    	HttpDelete delete = new HttpDelete(path);
 
 		HttpResponse response = httpClient.execute(delete);
 		System.out.println(response.getStatusLine().getStatusCode() + " -> ");
@@ -241,20 +259,7 @@ public class EjecutarWS_Abis_10000 {
 //		}
 
 		httpClient.getConnectionManager().shutdown();
-
-	  }catch (MalformedURLException e) {
-
-		e.printStackTrace();
-	
-	  } catch (IOException e) {
-
-		e.printStackTrace();
-
-	  }*/
-    	
     }
-
-
     
 	public String getBaseUrl() {
 		return baseUrl;

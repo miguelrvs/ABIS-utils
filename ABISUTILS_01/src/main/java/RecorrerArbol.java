@@ -12,25 +12,29 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.acerta.abis.dermalog.client.EjecutarWS_Abis_10000;
 import com.acerta.abis.dermalog.client.rest.Faces;
 import com.acerta.abis.dermalog.client.rest.Fingerprint;
 import com.acerta.abis.dermalog.client.rest.Image;
-import com.acerta.abis.dermalog.client.rest.InsertarNuevoAbisRequestVo;
 import com.acerta.abis.dermalog.client.rest.QueryBiometrics;
+import com.acerta.abis.dermalog.client.rest.request.AbisVoBorrarCURPRequest;
+import com.acerta.abis.dermalog.client.rest.request.AbisVoBuscarBiometricosRequest;
+import com.acerta.abis.dermalog.client.rest.request.AbisVoInsertarNuevoRequest;
+import com.acerta.abis.dermalog.client.rest.response.AbisVoBuscarBiometricosResponse;
 
 
 public class RecorrerArbol {
 	
 	static String nombre ="";
     
-	private static InsertarNuevoAbisRequestVo insertarNuevoAbisRequestVo = new InsertarNuevoAbisRequestVo();
+	private static AbisVoInsertarNuevoRequest insertarNuevoAbisRequestVo = new AbisVoInsertarNuevoRequest();
 	private static QueryBiometrics biometrics = new QueryBiometrics(); 
 	private static Faces rostro = null;
 	private static String id ="";
     public static void main(String[] args) {
     	
-    	String opcion = "leer";
-    	String curp = "RegistroPruebaInsertMASV821012";
+    	String opcion = "borrar";
+    	String curp = "RegistroPruebaInsertMASV821015";
     	
     	switch (opcion) {
 		case "insertar":
@@ -42,35 +46,36 @@ public class RecorrerArbol {
 
 			try {
 				//Convert object to JSON string and save into file directly 
-				mapper.writeValue(new File("C:\\dev\\ABIS\\MASV821010HMCLLN00\\biometrics.json"), insertarNuevoAbisRequestVo);
+//				mapper.writeValue(new File("C:\\dev\\ABIS\\MASV821010HMCLLN00\\biometrics.json"), insertarNuevoAbisRequestVo);
 				
 				//Convert object to JSON string
-				String jsonInString = mapper.writeValueAsString(insertarNuevoAbisRequestVo);
+//				String jsonInString = mapper.writeValueAsString(insertarNuevoAbisRequestVo);
 //				System.out.println(jsonInString);
 				
 				//Convert object to JSON string and pretty print
-				jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(insertarNuevoAbisRequestVo);
+//				jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(insertarNuevoAbisRequestVo);
 				try {
-				EjecutarWS_Abis_10000.insertarRegistro(jsonInString);
+				new EjecutarWS_Abis_10000().insertarRegistro(insertarNuevoAbisRequestVo);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-				System.out.println(jsonInString);
+//				System.out.println(jsonInString);
 				
 				
-			} catch (JsonGenerationException e) {
-				e.printStackTrace();
-			} catch (JsonMappingException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
+			}
+			catch (Exception e) {
+				System.out.println(e.getMessage());
 			}
 			
 			break;
 
 		case "borrar":
 			try {
-				EjecutarWS_Abis_10000.eliminarRegistro(curp);
+				AbisVoBorrarCURPRequest borrarRequest = new AbisVoBorrarCURPRequest();
+				borrarRequest.setIdentityId(curp);
+				new EjecutarWS_Abis_10000()
+					.eliminarRegistro(borrarRequest);
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				System.err.println(e.getMessage());
@@ -80,7 +85,7 @@ public class RecorrerArbol {
 			
 		case "leer_ID":
 			try {
-				EjecutarWS_Abis_10000.leerRegistro(curp);
+				new EjecutarWS_Abis_10000().leerRegistro(curp);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				System.err.println(e.getMessage());
@@ -90,8 +95,10 @@ public class RecorrerArbol {
 			
 		case "Buscar_BioMetricos":
 			try {	
-				walkin(new File("C:\\dev\\ABIS\\Busqueda")); 
-				EjecutarWS_Abis_10000.buscarBiometicos(curp);
+				AbisVoBuscarBiometricosRequest buscarRequest   = new AbisVoBuscarBiometricosRequest();
+				AbisVoBuscarBiometricosResponse buscarResponse = new AbisVoBuscarBiometricosResponse();
+//				walkin(new File("C:\\dev\\ABIS\\Busqueda")); 
+				buscarResponse = new EjecutarWS_Abis_10000().buscarBiometicos(buscarRequest);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				System.err.println(e.getMessage());

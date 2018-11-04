@@ -6,7 +6,8 @@ import java.util.List;
 public class QueryBiometrics 
 {
 	List<Fingerprint> fingerprints = new ArrayList<Fingerprint>();
-	List<Faces>			  faces	   = new  ArrayList<Faces>();
+	List<Faces>		  faces	       = new ArrayList<Faces>();
+	List<Groups>      groups       = new ArrayList<Groups>();
 	
 	public List<Fingerprint> getFingerprints() {
 		return fingerprints;
