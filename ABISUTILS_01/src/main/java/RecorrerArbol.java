@@ -7,15 +7,16 @@ import java.util.ArrayList;
 import javax.print.attribute.standard.Finishings;
 
 import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.io.IOUtils;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
-import VariableObjects.Faces;
-import VariableObjects.Fingerprint;
-import VariableObjects.Image;
-import VariableObjects.InsertarNuevoAbisRequestVo;
-import VariableObjects.QueryBiometrics;
+import com.acerta.abis.dermalog.client.rest.Faces;
+import com.acerta.abis.dermalog.client.rest.Fingerprint;
+import com.acerta.abis.dermalog.client.rest.Image;
+import com.acerta.abis.dermalog.client.rest.InsertarNuevoAbisRequestVo;
+import com.acerta.abis.dermalog.client.rest.QueryBiometrics;
 
 
 public class RecorrerArbol {
@@ -50,7 +51,7 @@ public class RecorrerArbol {
 				//Convert object to JSON string and pretty print
 				jsonInString = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(insertarNuevoAbisRequestVo);
 				try {
-				EjecutarWS_Abis_10000.abis_InsertarRegistro(jsonInString);
+				EjecutarWS_Abis_10000.insertarRegistro(jsonInString);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -69,7 +70,7 @@ public class RecorrerArbol {
 
 		case "borrar":
 			try {
-				EjecutarWS_Abis_10000.abis_EliminarRegistro(curp);
+				EjecutarWS_Abis_10000.eliminarRegistro(curp);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				System.err.println(e.getMessage());
@@ -79,7 +80,7 @@ public class RecorrerArbol {
 			
 		case "leer_ID":
 			try {
-				EjecutarWS_Abis_10000.abis_LeerRegistro(curp);
+				EjecutarWS_Abis_10000.leerRegistro(curp);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				System.err.println(e.getMessage());
@@ -90,7 +91,7 @@ public class RecorrerArbol {
 		case "Buscar_BioMetricos":
 			try {	
 				walkin(new File("C:\\dev\\ABIS\\Busqueda")); 
-				EjecutarWS_Abis_10000.abis_BuscarBiometicos(curp);
+				EjecutarWS_Abis_10000.buscarBiometicos(curp);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				System.err.println(e.getMessage());
@@ -124,27 +125,37 @@ public class RecorrerArbol {
                 	
                 	if(listFile[i].getName().equals("foto.jpg"))
                 	{
-                		if(rostro == null) rostro = new Faces();
-                		Image image = new Image();
-                		image.setType("JPG");
-                		image.setData(encodeFileToBase64Binary(listFile[i]));
-//                		image.setData( encodeFileToBase64Binary(listFile[i]));
-                		rostro.setImage(image);
-                		biometrics.getFaces().add(rostro);
+                		try {
+							if(rostro == null) 
+								rostro = new Faces();
+							Image image = new Image();
+							image.setType("JPG");
+//                		image.setData(encodeFileToBase64Binary(listFile[i]));
+							image.setData(IOUtils.toByteArray(new FileInputStream(listFile[i])));
+							rostro.setImage(image);
+							biometrics.getFaces().add(rostro);
 //                		System.out.println(listFile[i].getPath());
-                		;
+							;
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
                 		
                 	}
                 	if(listFile[i].getName().contains(".wsq"))
                 	{
                 		
-                		Fingerprint huella = new Fingerprint();
-                		Image imagen = new Image();
-                		imagen.setType("WSQ");
-                		imagen.setData(encodeFileToBase64Binary(listFile[i]));
-                		huella.setImage(imagen);
-                		huella.setFingerPosition(Integer.valueOf(listFile[i].getName().substring(1, 3)));
-                		biometrics.getFingerprints().add(huella);
+                		try {
+							Fingerprint huella = new Fingerprint();
+							Image imagen = new Image();
+							imagen.setType("WSQ");
+//                		imagen.setData(encodeFileToBase64Binary(listFile[i]));
+							imagen.setData(IOUtils.toByteArray(new FileInputStream(listFile[i])));
+							huella.setImage(imagen);
+							huella.setFingerPosition(Integer.valueOf(listFile[i].getName().substring(1, 3)));
+							biometrics.getFingerprints().add(huella);
+						} catch (NumberFormatException | IOException e) {
+							e.printStackTrace();
+						}
                 	}
                 		
                 }
@@ -152,7 +163,7 @@ public class RecorrerArbol {
         }
 
     }
-    
+/*    
     private static String encodeFileToBase64Binary(File file){
         String encodedfile = null;
         try {
@@ -170,6 +181,6 @@ public class RecorrerArbol {
 //        System.out.println(encodedfile.substring(1000, 1050));
         return encodedfile;
     }
-    
+*/
     
 }
