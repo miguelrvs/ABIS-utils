@@ -52,10 +52,28 @@ public class EjecutarWS_Abis_10000 {
 			.setBiometrics(biometrics);*/
     	
     	WebClient client = jax.createWebClient().path(path);
-    	InsertarNuevoAbisResponse r = client.accept(MediaType.APPLICATION_JSON)
-    			.post(request, com.acerta.abis.dermalog.client.rest.InsertarNuevoAbisResponse.class); //TODO especificar tipo de retorno
+    	Response r = client.accept(MediaType.APPLICATION_JSON)
+    			.post(request); //TODO especificar tipo de retorno
+    	
+		switch (r.getStatus()) {
+		case 200:
+			System.out.println("Registro insertado Exitosamente");
+			InsertarNuevoAbisResponse e = r.readEntity(com.acerta.abis.dermalog.client.rest.InsertarNuevoAbisResponse.class);
+			return e;
+		case 400:
+			System.out.println("datos de peticion invalidos");
+			throw new RuntimeException("datos de peticion invalidos");
+		case 409:
+			System.out.println("Identidad ya existente");
+			throw new RuntimeException("datos de peticion invalidos");
+		case 500:
+			System.out.println("Error inesperado");
+			throw new RuntimeException("Error inesperado");
 
-    	return r;
+		default:
+			throw new RuntimeException("Error desconocido "+r.getStatus()+" "+r.getStatusInfo().getReasonPhrase());
+		}
+    	
     	/*
     	@SuppressWarnings("deprecation")
 		DefaultHttpClient httpClient = new DefaultHttpClient();
