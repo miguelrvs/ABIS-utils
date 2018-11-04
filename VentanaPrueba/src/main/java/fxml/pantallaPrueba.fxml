@@ -7,8 +7,9 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.ButtonBase?>
 
-<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="untitled" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.FXMLDocumentController">
-  <content>
+<BorderPane maxHeight="100" maxWidth="100" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.FXMLDocumentController">
+  <top><Label>Acerta / Demo Banorte</Label></top>
+  <center>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
             <HBox layoutX="77.0" layoutY="49.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -101,5 +102,5 @@
                </children>
             </HBox>
          </children></AnchorPane>
-  </content>
-</TitledPane>
+  </center>
+</BorderPane>
