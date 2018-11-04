@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.ButtonBase?>
+
+<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="untitled" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="fxml.FXMLDocumentController">
+  <content>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+         <children>
+            <HBox layoutX="77.0" layoutY="49.0" prefHeight="100.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox fx:id="hbInsertarId" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: BLACK;">
+                           <children>
+                              <Button fx:id="BttnInsertarId" alignment="CENTER" onAction="#handleInsertarAction" text="INSERTAR" textAlignment="CENTER" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbBuscarId" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: BLACK;">
+                           <children>
+                              <Button fx:id="BttnBuscarId" onAction="#handleBuscararAction" text="BUSCAR" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbIdentificarId" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: BLACK;">
+                           <children>
+                              <Button fx:id="BttnBuscarId" onAction="#handleIdentificarAction" text="IDENTIFICAR" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbValidarId" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: BLACK;">
+                           <children>
+                              <Button fx:id="BttnValidarId" onAction="#handleValidarAction" text="VALIDAR" />
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbBorrarId" alignment="CENTER" prefHeight="100.0" prefWidth="200.0" style="-fx-border-color: BLACK;">
+                           <children>
+                              <Button fx:id="BttnBorrarId" onAction="#handleBorrarAction" text="BORRAR" />
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0">
+                     <children>
+                        <HBox fx:id="hbFotoId" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+	                                 <Button fx:id="btnFotoId" alignment="BASELINE_LEFT" contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handlefotoEventAction" prefHeight="50.0">
+							           <graphic>
+							              <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+							              <image>       
+							                <Image url="@../../../pruebaVentana/src/Imagenes/foto.png" />          
+							              </image>
+							              </ImageView>
+							           </graphic>
+									</Button>
+								  </children>
+                              </AnchorPane>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbHuellaId" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                 	<Button fx:id="btnHuellaId" alignment="BASELINE_LEFT" contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleHuellaEventAction" prefHeight="50.0">
+							           <graphic>
+							              <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+							              <image>       
+							                <Image url="@../../../pruebaVentana/src/Imagenes/huella.png" />          
+							              </image>
+							              </ImageView>
+							           </graphic>
+									</Button>
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </HBox>
+                        <HBox fx:id="hbCURPId" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                 	<Button fx:id="btnCURPId" alignment="BASELINE_LEFT" contentDisplay="RIGHT" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleCURPEventAction" prefHeight="50.0">
+							           <graphic>
+							              <ImageView fitHeight="80.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+							              <image>       
+							                <Image preserveRatio="false" smooth="false" url="@../Imagenes/CURP.png" />          
+							              </image>
+							              </ImageView>
+							           </graphic>
+									</Button>                                 
+                                 </children>
+                              </AnchorPane>
+                           </children>
+                        </HBox>
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="355.0" prefWidth="371.0" style="-fx-border-color: green;" />
+               </children>
+            </HBox>
+         </children></AnchorPane>
+  </content>
+</TitledPane>
