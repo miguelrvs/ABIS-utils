@@ -101,14 +101,13 @@ public class EjecutarWS_Abis_10000 {
     }
     
     
-    public QueryBiometrics leerRegistro(String identityId) throws Exception {
+    public Response leerRegistro(String identityId) throws Exception {
     	String path = "identity/{identityId}";
     	WebClient client = jax.createWebClient().path(path, identityId);
-    	QueryBiometrics r = client.accept(MediaType.APPLICATION_JSON)
-    			.get(QueryBiometrics.class);
+    	Response r = client.accept(MediaType.APPLICATION_JSON)
+    			.get();
 
-    	return r;
-/*
+
     	switch (r.getStatus()) {
     	case 200:
     		System.out.println("Registro encontrado");
@@ -125,11 +124,12 @@ public class EjecutarWS_Abis_10000 {
 
     	default:
     		break;
-    	}*/
+    	}
+    	return r;
     }
     
     public com.acerta.abis.dermalog.client.rest.BuscarBiometricosAbisResponse buscarBiometicos(BuscarBiometricosAbisRequestVo request) throws Exception {
-    	String path = "identity";
+    	String path = "/biometric/search";
     	WebClient client = jax.createWebClient().path(path);
     	BuscarBiometricosAbisResponse r = client
     			.accept(MediaType.APPLICATION_JSON)
