@@ -43,7 +43,7 @@
                         </HBox>
                      </children>
                   </VBox>
-                  <VBox prefHeight="200.0" prefWidth="100.0">
+<!--                   <VBox prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <HBox fx:id="hbFotoId" prefHeight="100.0" prefWidth="200.0">
                            <children>
@@ -97,8 +97,8 @@
                            </children>
                         </HBox>
                      </children>
-                  </VBox>
-                  <VBox prefHeight="355.0" prefWidth="371.0" style="-fx-border-color: green;" />
+                  </VBox> -->
+                  <VBox prefHeight="355.0" prefWidth="371.0" style="-fx-border-color: green;" fx:id="innerContainer" />
                </children>
             </HBox>
          </children></AnchorPane>

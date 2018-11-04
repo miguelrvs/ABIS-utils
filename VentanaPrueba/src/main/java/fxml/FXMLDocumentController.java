@@ -5,14 +5,24 @@
  */
 package fxml;
 
+import javafx.scene.Parent;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import com.acerta.abis.dermalog.client.EjecutarWS_Abis_10000;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.fxml.JavaFXBuilderFactory;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.util.Callback;
 
 /**
  *
@@ -23,14 +33,35 @@ public class FXMLDocumentController implements Initializable {
 //    @FXML
 //    private Label label;
 	
+	private EjecutarWS_Abis_10000 api;
+	
 	@FXML private HBox hbInsertarId;
 	@FXML private HBox hbBuscarId;
 	@FXML private HBox hbIdentificarId;
 	@FXML private HBox hbValidarId;
 	@FXML private HBox hbBorrarId;
-	@FXML private HBox hbFotoId;
-	@FXML private HBox hbHuellaId;
-	@FXML private HBox hbCURPId;
+//	@FXML private HBox hbFotoId;
+//	@FXML private HBox hbHuellaId;
+//	@FXML private HBox hbCURPId;
+	
+	@FXML private VBox innerContainer;
+	
+	
+	public FXMLDocumentController(){
+/*		
+		final JavaFXBuilderFactory bf = new JavaFXBuilderFactory();
+    	final Callback<Class<?>, Object> cb = (clazz) -> IndividualAuthClientFx.getBean(clazz);
+    	
+ 	stepsUri.stream().forEach(uri->{
+    		try {
+				Parent root = FXMLLoader.load(getClass().getResource(uri), null, bf, cb ); 
+				steps.add(root);
+			} catch (Exception e) {
+				log.error("Error al generar step: "+e,e);
+			}
+    	});*/
+		
+	}
 	
     
     @FXML
@@ -49,9 +80,10 @@ public class FXMLDocumentController implements Initializable {
 	    	hbValidarId.setStyle("-fx-background-color: LIGHTGREY");
 	    	hbBorrarId.setStyle("-fx-background-color: LIGHTGREY");
 	    	
-	    	hbFotoId.setVisible(true);
+/*	    	hbFotoId.setVisible(true);
 	    	hbHuellaId.setVisible(true);
-	    	hbCURPId.setVisible(true);
+	    	hbCURPId.setVisible(true);*/
+	    	
 	    	
 			
 		} catch (Exception e) {
@@ -68,9 +100,9 @@ public class FXMLDocumentController implements Initializable {
     	hbValidarId.setStyle("-fx-background-color: LIGHTGREY");
     	hbBorrarId.setStyle("-fx-background-color: LIGHTGREY");
     	
-    	hbFotoId.setVisible(false);
+/*    	hbFotoId.setVisible(false);
     	hbHuellaId.setVisible(false);
-    	hbCURPId.setVisible(true);
+    	hbCURPId.setVisible(true);*/
     }
     
     @FXML
@@ -82,9 +114,9 @@ public class FXMLDocumentController implements Initializable {
     	hbValidarId.setStyle("-fx-background-color: LIGHTGREY");
     	hbBorrarId.setStyle("-fx-background-color: LIGHTGREY");
     	
-    	hbFotoId.setVisible(true);
+/*    	hbFotoId.setVisible(true);
     	hbHuellaId.setVisible(true);
-    	hbCURPId.setVisible(false);
+    	hbCURPId.setVisible(false);*/
     }
     
     @FXML
@@ -95,9 +127,9 @@ public class FXMLDocumentController implements Initializable {
     	hbIdentificarId.setStyle("-fx-background-color: LIGHTGREY");
     	hbValidarId.setStyle("-fx-background-color: teal");
     	hbBorrarId.setStyle("-fx-background-color: LIGHTGREY");
-    	hbFotoId.setVisible(true);
+/*    	hbFotoId.setVisible(true);
     	hbHuellaId.setVisible(true);
-    	hbCURPId.setVisible(true);
+    	hbCURPId.setVisible(true);*/
     }
     
     @FXML
@@ -108,10 +140,28 @@ public class FXMLDocumentController implements Initializable {
     	hbIdentificarId.setStyle("-fx-background-color: LIGHTGREY");
     	hbValidarId.setStyle("-fx-background-color: LIGHTGREY");
     	hbBorrarId.setStyle("-fx-background-color: teal");
-    	hbFotoId.setVisible(false);
+/*    	hbFotoId.setVisible(false);
     	hbHuellaId.setVisible(false);
-    	hbCURPId.setVisible(true);
+    	hbCURPId.setVisible(true);*/
+    	
+    	loadChild("/fxml/pantallaBorrar.fxml");
+    	
     }
+
+
+	private void loadChild(String fxml) {
+		try {
+			FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+			Parent root = loader.load();
+			BorrarController controller = loader.getController();
+			
+			innerContainer.getChildren().clear();
+			innerContainer.getChildren().add(root);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
     
     @FXML
     private void handlefotoEventAction(ActionEvent event)
@@ -134,6 +184,16 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
+
+
+	public EjecutarWS_Abis_10000 getApi() {
+		return api;
+	}
+
+
+	public void setApi(EjecutarWS_Abis_10000 api) {
+		this.api = api;
+	}    
     
 }
