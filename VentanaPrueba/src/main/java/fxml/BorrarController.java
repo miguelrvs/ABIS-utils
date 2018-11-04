@@ -19,7 +19,7 @@ public class BorrarController implements Initializable {
 	@FXML private TextField IdTextField;
 	@FXML private Button submitBtn;
 	
-	@inj private EjecutarWS_Abis_10000 api;
+	 private EjecutarWS_Abis_10000 api;
 	
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
