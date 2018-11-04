@@ -235,7 +235,15 @@ public class EjecutarWS_Abis_10000 {
 	  }*/
     	
     }
+
+
     
-    
+	public String getBaseUrl() {
+		return baseUrl;
+	}
+
+	public void setBaseUrl(String baseUrl) {
+		this.baseUrl = baseUrl;
+	}
     
 }
