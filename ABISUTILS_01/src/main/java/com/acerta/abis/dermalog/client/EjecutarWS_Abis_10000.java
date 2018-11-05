@@ -12,6 +12,7 @@ import java.util.Collections;
 import javax.ws.rs.client.AsyncInvoker;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.xml.ws.ServiceMode;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.cxf.Bus;
@@ -30,9 +31,10 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import com.acerta.abis.dermalog.client.rest.QueryBiometrics;
-import com.acerta.abis.dermalog.client.rest.request.AbisVoBorrarCURPRequest;
 import com.acerta.abis.dermalog.client.rest.request.AbisVoBuscarBiometricosRequest;
 import com.acerta.abis.dermalog.client.rest.request.AbisVoInsertarNuevoRequest;
 import com.acerta.abis.dermalog.client.rest.response.AbisVoBuscarBiometricosResponse;
@@ -40,17 +42,21 @@ import com.acerta.abis.dermalog.client.rest.response.AbisVoInsertarNuevoResponse
 
 import org.apache.cxf.jaxrs.client.WebClient;
 
-
+@Service
 public class EjecutarWS_Abis_10000 {
 	
-	private static String baseUrl = "http://192.168.15.184:10000/v1/";
+	@Value("${abis.baseUrl}") private String baseUrl = "http://192.168.15.184:10000/v1/";
 	
 
-	private JAXRSClientFactoryBean jax;
+	 private JAXRSClientFactoryBean jax;
 	
 	public EjecutarWS_Abis_10000( ) {
 		super();
 //		this.baseUrl = baseUrl;
+		
+		jax = new JAXRSClientFactoryBean();
+		jax.setAddress(baseUrl);
+		
 	}
 
 	//    public static void wsPostDerma_Enrroll(QueryBiometrics biometrics, String nombre) throws IOException {
@@ -201,22 +207,18 @@ public class EjecutarWS_Abis_10000 {
 			IOUtils.copy(response.getEntity().getContent(), System.out);*/
     }
     
-    public void eliminarRegistro(AbisVoBorrarCURPRequest borrarRequest) throws IOException {
+    public void eliminarRegistro(String id) throws IOException {
 
-    	String path = baseUrl+"identity/"+borrarRequest.getIdentityId();
-//    	WebClient client = jax.createWebClient().path(path);
-
-/*    	AsyncInvoker asyncClient = client.accept(MediaType.APPLICATION_JSON).async();
-    	asyncClient.
-    	asyncClient.get();*/
+    	String path = "identity/{id}";
     	
-//    	Response r = client//.accept(MediaType.APPLICATION_JSON)
-//    			.delete();
-//    	int status = r.getStatus();
+    	WebClient client = jax.createWebClient().path(path, id);
+    	Response response = client
+    			.accept(MediaType.APPLICATION_JSON)
+    			.delete();
+    	int status = response.getStatus();
 //    	return ;
-    	
   	
-    	
+/*    	
     	@SuppressWarnings("deprecation")
 		DefaultHttpClient httpClient = new DefaultHttpClient();
     	HttpClient client = HttpClientBuilder.create().build();
@@ -225,8 +227,8 @@ public class EjecutarWS_Abis_10000 {
 
 		HttpResponse response = httpClient.execute(delete);
 		System.out.println(response.getStatusLine().getStatusCode() + " -> ");
-		
-		switch (response.getStatusLine().getStatusCode()) {
+*/		
+		switch (response.getStatus()) {
 		case 204:
 			System.out.println("Registro eliminado Exitosamente");
 			break;
@@ -258,15 +260,8 @@ public class EjecutarWS_Abis_10000 {
 			
 //		}
 
-		httpClient.getConnectionManager().shutdown();
+//		httpClient.getConnectionManager().shutdown();
     }
     
-	public String getBaseUrl() {
-		return baseUrl;
-	}
-
-	public void setBaseUrl(String baseUrl) {
-		this.baseUrl = baseUrl;
-	}
     
 }
