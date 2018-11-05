@@ -9,6 +9,7 @@ import java.util.ResourceBundle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.acerta.abis.dermalog.client.AbisException;
 import com.acerta.abis.dermalog.client.EjecutarWS_Abis_10000;
 
 import javafx.concurrent.Task;
@@ -42,7 +43,7 @@ public class BorrarController implements Initializable {
     @FXML private void handleBorrarAction(){
 
     	Task<Void> task = new Task<Void>() {
-    	    @Override public Void call() throws IOException {
+    	    @Override public Void call() throws AbisException, IOException {
     	
 			String id = IdTextField.getText();
 			api.eliminarRegistro(id);

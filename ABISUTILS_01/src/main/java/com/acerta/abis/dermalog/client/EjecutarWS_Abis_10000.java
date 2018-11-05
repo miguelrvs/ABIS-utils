@@ -207,7 +207,7 @@ public class EjecutarWS_Abis_10000 {
 			IOUtils.copy(response.getEntity().getContent(), System.out);*/
     }
     
-    public void eliminarRegistro(String id) throws IOException {
+    public void eliminarRegistro(String id) throws IOException, AbisException {
 
     	String path = "identity/{id}";
     	
@@ -228,22 +228,17 @@ public class EjecutarWS_Abis_10000 {
 		HttpResponse response = httpClient.execute(delete);
 		System.out.println(response.getStatusLine().getStatusCode() + " -> ");
 */		
-		switch (response.getStatus()) {
+		switch (response.getStatus()) { //FIXME retornar estos codigos de alguna forma
 		case 204:
 			System.out.println("Registro eliminado Exitosamente");
 			break;
 		case 400:
-			System.out.println("datos de peticion invalidos");
-			break;
+			throw new InvalidDataAbisException("datos de peticion invalidos");
 		case 404:
-			System.out.println("Identidad no encontrada");
-			break;
+			throw new IdentityNotFoundAbisException("Identidad no encontrada");
 		case 500:
-			System.out.println("Error inesperado");
-			break;
+			throw new UnexpectedErrorAbisException("Error inesperado");
 
-		default:
-			break;
 		}
 
 //		if (response.getStatusLine().getStatusCode() != 201) {
