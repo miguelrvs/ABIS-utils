@@ -74,7 +74,7 @@ public class RecorrerArbol {
 				AbisVoBorrarCURPRequest borrarRequest = new AbisVoBorrarCURPRequest();
 				borrarRequest.setIdentityId(curp);
 				new EjecutarWS_Abis_10000()
-					.eliminarRegistro(borrarRequest);
+					.eliminarRegistro(curp);
 				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
