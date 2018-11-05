@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:util="http://www.springframework.org/schema/util"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+    xmlns:cxf="http://cxf.apache.org/core"
+    xmlns:task="http://www.springframework.org/schema/task"
+    xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/util  http://www.springframework.org/schema/util/spring-util.xsd
+        http://www.springframework.org/schema/task  http://www.springframework.org/schema/task/spring-task.xsd
+        http://www.springframework.org/schema/jee   http://www.springframework.org/schema/jee/spring-jee.xsd
+        http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context.xsd
+ 		http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
+        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+        "
+        >
+   <context:property-placeholder location="prod.properties" ignore-unresolvable="true"/>
+   <context:annotation-config />
+   <context:component-scan base-package="com.acerta"/>
+        
+    <import resource="classpath:META-INF/cxf/cxf.xml" />
+
+
+	<cxf:bus >
+		<cxf:features>
+			<cxf:logging />
+		</cxf:features>
+	</cxf:bus>
+
+ 	
+	<http-conf:conduit name="*.http-conduit">
+	<http-conf:client 
+		AllowChunking="false"
+		ConnectionTimeout="30000"
+		ReceiveTimeout="90000"
+		ContentType="text/json"
+		
+	/>
+	</http-conf:conduit>
+	
+	<bean id="statusProperty" class="javafx.beans.property.SimpleStringProperty"/>
+<!-- 	<bean id="statusProcesoMsg" class="javafx.beans.property.SimpleStringProperty"/> -->
+	
+</beans>
