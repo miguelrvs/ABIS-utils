@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 import com.acerta.abis.dermalog.client.AbisException;
 import com.acerta.abis.dermalog.client.EjecutarWS_Abis_10000;
 
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.StringProperty;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,6 +34,9 @@ public class BorrarController implements Initializable {
 	@FXML private Button submitBtn;
 	
 	@Autowired private EjecutarWS_Abis_10000 api;
+
+	@Autowired private StringProperty statusProperty;
+	@Autowired private DoubleProperty progressProperty;
 	
     @Override
     public void initialize(URL arg0, ResourceBundle arg1) {
@@ -44,7 +49,8 @@ public class BorrarController implements Initializable {
 
     	Task<Void> task = new Task<Void>() {
     	    @Override public Void call() throws AbisException, IOException {
-    	
+    	    updateProgress(-1, 0);
+    	    updateMessage("Borrando...");
 			String id = IdTextField.getText();
 			api.eliminarRegistro(id);
 			System.out.println("Borrar");
@@ -53,6 +59,8 @@ public class BorrarController implements Initializable {
     	    }
     	    @Override
     	    protected void succeeded() {
+    	    	updateMessage("");
+    			updateProgress(0,0);
     	    	Alert alert = new Alert(AlertType.INFORMATION);
     	    	alert.setTitle("Registro borrado");
     	    	alert.setHeaderText("Registro borrado");
@@ -64,11 +72,13 @@ public class BorrarController implements Initializable {
     	    	super.failed();
     	    	Throwable e = getException();
     			e.printStackTrace();
-    			
+    			updateMessage("");
+    			updateProgress(0,0);
     			ErrorMessage.exceptionDialog("Error al Borrar",e);
     	    }
     	};
-		
+    	progressProperty.bind(task.progressProperty());
+    	statusProperty.bind(task.messageProperty());
 		new Thread(task).start();
 		
     }

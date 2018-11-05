@@ -33,6 +33,8 @@ import org.controlsfx.control.StatusBar;
 
 import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -58,6 +60,7 @@ public class FXMLDocumentController implements Initializable {
 	@FXML private VBox innerContainer;
 	@FXML private StatusBar statusBar;
 	@Autowired private StringProperty statusProperty;
+	@Autowired private DoubleProperty progressProperty;
 	
 	
 	public FXMLDocumentController(){
@@ -209,7 +212,7 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     	statusBar.textProperty().bind(statusProperty);
-    	
+    	statusBar.progressProperty().bind(progressProperty);
     	
 //    	hbBorrarId.hoverProperty().addListener((observable, oldValue, newValue)-> { (Objects.notNull(newValue)||newValue) ? statusProperty.set("Borrar un registro") : statusProperty.set(""); });
     	
