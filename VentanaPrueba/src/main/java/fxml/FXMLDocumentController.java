@@ -11,6 +11,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+
 import com.acerta.abis.dermalog.client.EjecutarWS_Abis_10000;
 
 import javafx.event.ActionEvent;
@@ -24,16 +28,19 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleStringProperty;
+
 /**
  *
  * @author Acerta
  */
+@Component
 public class FXMLDocumentController implements Initializable {
     
 //    @FXML
 //    private Label label;
-	
-	private EjecutarWS_Abis_10000 api;
+	@Autowired private ApplicationContext applicationContext;	
 	
 	@FXML private HBox hbInsertarId;
 	@FXML private HBox hbBuscarId;
@@ -45,6 +52,8 @@ public class FXMLDocumentController implements Initializable {
 //	@FXML private HBox hbCURPId;
 	
 	@FXML private VBox innerContainer;
+	@FXML private Label statusBar;
+	@Autowired private StringProperty statusProperty;
 	
 	
 	public FXMLDocumentController(){
@@ -144,24 +153,12 @@ public class FXMLDocumentController implements Initializable {
     	hbHuellaId.setVisible(false);
     	hbCURPId.setVisible(true);*/
     	
-    	loadChild("/fxml/pantallaBorrar.fxml");
+    	loadChild("Borrar", "/fxml/pantallaBorrar.fxml");
     	
     }
 
 
-	private void loadChild(String fxml) {
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
-			Parent root = loader.load();
-			BorrarController controller = loader.getController();
-			
-			innerContainer.getChildren().clear();
-			innerContainer.getChildren().add(root);
-			
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+
     
     @FXML
     private void handlefotoEventAction(ActionEvent event)
@@ -180,20 +177,35 @@ public class FXMLDocumentController implements Initializable {
     {
     	System.out.println("CURP");
     }
+
+	private void loadChild(String nombre, String fxml) {
+		try {
+			
+			final JavaFXBuilderFactory bf = new JavaFXBuilderFactory();
+	    	final Callback<Class<?>, Object> cb = (clazz) -> applicationContext.getBean(clazz);
+	    	Parent root = FXMLLoader.load(
+	    			getClass().getResource(fxml)
+	    			, null
+	    			, bf
+	    			, cb );
+	    	
+//			FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+//			Parent root = loader.load();
+//			BorrarController controller = loader.getController();
+			
+			innerContainer.getChildren().clear();
+			innerContainer.getChildren().add(root);
+			statusProperty.set(nombre);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+    	statusBar.textProperty().bind(statusProperty);
     }
 
-
-	public EjecutarWS_Abis_10000 getApi() {
-		return api;
-	}
-
-
-	public void setApi(EjecutarWS_Abis_10000 api) {
-		this.api = api;
-	}    
     
 }
