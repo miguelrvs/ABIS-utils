@@ -12,6 +12,7 @@ import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 
+import com.acerta.abis.dermalog.client.AbisException;
 import com.acerta.abis.dermalog.client.EjecutarWS_Abis_10000;
 import com.acerta.abis.dermalog.client.rest.Faces;
 import com.acerta.abis.dermalog.client.rest.Fingerprint;
@@ -76,8 +77,7 @@ public class RecorrerArbol {
 				new EjecutarWS_Abis_10000()
 					.eliminarRegistro(curp);
 				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
+			} catch (IOException | AbisException e) {
 				System.err.println(e.getMessage());
 				e.printStackTrace();
 			}
