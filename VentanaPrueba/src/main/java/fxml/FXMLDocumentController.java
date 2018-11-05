@@ -9,6 +9,7 @@ import javafx.scene.Parent;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +29,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.util.Callback;
 
+import org.controlsfx.control.StatusBar;
+
 import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -52,7 +56,7 @@ public class FXMLDocumentController implements Initializable {
 //	@FXML private HBox hbCURPId;
 	
 	@FXML private VBox innerContainer;
-	@FXML private Label statusBar;
+	@FXML private StatusBar statusBar;
 	@Autowired private StringProperty statusProperty;
 	
 	
@@ -205,6 +209,10 @@ public class FXMLDocumentController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
     	statusBar.textProperty().bind(statusProperty);
+    	
+    	
+//    	hbBorrarId.hoverProperty().addListener((observable, oldValue, newValue)-> { (Objects.notNull(newValue)||newValue) ? statusProperty.set("Borrar un registro") : statusProperty.set(""); });
+    	
     }
 
     
